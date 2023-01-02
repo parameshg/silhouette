@@ -1,0 +1,21 @@
+﻿<#@ template language="C#" #>
+<#@ parameter type="System.String" name="Prefix" #>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Ensure.That" Version="10.1.0" />
+    <PackageReference Include="FastEndpoints" Version="5.5.0" />
+    <PackageReference Include="MediatR" Version="11.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Backend.Server\Backend.Server.csproj" />     
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Endpoints\" />
+  </ItemGroup>
+</Project>

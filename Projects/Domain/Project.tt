@@ -1,0 +1,21 @@
+﻿<#@ template language="C#" #>
+<#@ parameter type="System.String" name="Prefix" #>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName><#= Prefix #>.Domain</AssemblyName>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Ensure.That" Version="10.1.0" />
+    <PackageReference Include="Enums.NET" Version="4.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Values\" />
+    <Folder Include="Events\" />
+    <Folder Include="Entities\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Enumerations\" />
+  </ItemGroup>
+</Project>

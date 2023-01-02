@@ -1,0 +1,88 @@
+﻿<#@ template language="C#" #>
+<#@ parameter type="System.String" name="Prefix" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+namespace Backend.Domain.Enumerations;
+
+public abstract class Enumeration : IComparable
+{
+    public string Text { get; }
+
+    public string Value { get; }
+
+    protected Enumeration(string value)
+    {
+        Value = value;
+    }
+
+    public static IEnumerable<T> GetValues<T>() where T : Enumeration
+    {
+        var fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
+
+        return fields.Select(i => i.GetValue(null)).Cast<T>();
+    }
+
+    public static bool Parsable<T>(string value) where T : Enumeration
+    {
+        var result = false;
+
+        var item = GetValues<T>().FirstOrDefault(i => i.Value.ToUpper() == value.ToUpper());
+
+        if (item != null)
+        {
+            result = true;
+        }
+
+        return result;
+    }
+
+    public static T Parse<T>(string value) where T : Enumeration
+    {
+        var result = default(T);
+
+        if (!string.IsNullOrWhiteSpace(value))
+        {
+            result = GetValues<T>().FirstOrDefault(i => i.Value.ToUpper() == value.ToUpper());
+
+            if (result == null)
+            {
+                throw new KeyNotFoundException($"{value} in {typeof(T).Name}");
+            }
+        }
+
+        return result;
+    }
+
+    public override string ToString()
+    {
+        return Value;
+    }
+
+    public override bool Equals(object o)
+    {
+        var otherValue = o as Enumeration;
+
+        if (otherValue == null)
+        {
+            return false;
+        }
+
+        var typeMatches = GetType().Equals(o.GetType());
+
+        var valueMatches = Value.Equals(otherValue.Value);
+
+        return typeMatches && valueMatches;
+    }
+
+    public override int GetHashCode()
+    {
+        return Value.GetHashCode();
+    }
+
+    public int CompareTo(object other)
+    {
+        return Value.CompareTo(((Enumeration)other).Value);
+    }
+}

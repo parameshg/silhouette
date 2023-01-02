@@ -1,0 +1,22 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ parameter type="System.String" name="Prefix" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+namespace Backend.Api.Endpoints;
+
+[HttpGet("/")]
+[AllowAnonymous]
+public class HomeEndpoint : EndpointWithoutRequest
+{
+    public override async Task HandleAsync(CancellationToken cancel)
+    {
+        await SendAsync(new IndexResponse());
+    }
+}
+
+public class IndexResponse
+{
+    public DateTime Timestamp { get; set; } = DateTime.Now;
+}

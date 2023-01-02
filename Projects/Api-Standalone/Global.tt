@@ -1,0 +1,12 @@
+﻿<#@ template language="C#" #>
+<#@ parameter type="System.String" name="Prefix" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+global using MediatR;
+global using EnsureThat;
+global using FastEndpoints;
+global using Raven.Embedded;
+global using Microsoft.AspNetCore.Authorization;
+global using Backend.Server;

@@ -1,0 +1,23 @@
+﻿<#@ template language="C#" #>
+<#@ parameter type="System.String" name="Prefix" #>
+
+EmbeddedServer.Instance.StartServer();
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddSingleton(EmbeddedServer.Instance.GetDocumentStore("Backend"));
+builder.Services.AddFastEndpoints();
+builder.Services.AddMediatR(AssemblyMarker.Assembly);
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseAuthorization();
+app.UseFastEndpoints(cfg => cfg.Endpoints.Configurator = i => i.AllowAnonymous());
+app.Run(); 
